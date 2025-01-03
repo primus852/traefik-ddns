@@ -226,6 +226,21 @@ chmod 600 acme.json
 
 ---
 
+## Makefile Usage
+The `Makefile` provides convenient commands to manage the Docker Compose services. Below are the available targets and their usage:  
+
+### Targets
+- `start-ddns`: Starts the Cloudflare DDNS service.
+- `start-traefik`: Starts the Traefik service.
+- `start`: Starts both the DDNS and Traefik services.
+- `stop`: Stops all running services.
+- `down`: Stops and removes all services.
+
+### Usage
+To use the `Makefile` targets, run the following commands in your terminal:  
+  
+`make <target>`, e.g., `make start` to start both services.
+
 ## Maintenance and Updates
 
 ### Updating Docker Images
@@ -269,5 +284,45 @@ For support:
 - Refer to [Cloudflare API Documentation](https://developers.cloudflare.com/api/).
 
 ---
+
+## Cloudflare Setup
+
+### Sample config.ddns.json
+
+```json
+{
+  "cloudflare": [
+    {
+      "authentication": {
+        "api_token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      },
+      "zone_id": "XXXXXXXXXXXXXXXX",
+      "subdomains": [
+        {
+          "name": "*.dev",
+          "proxied": false
+        }
+      ]
+    }
+  ],
+  "a": true,
+  "aaaa": true,
+  "purgeUnknownRecords": true,
+  "ttl": 300
+}
+```
+
+leading to the following DNS records:
+![cf_setup.png](images/cf_setup.png)
+
+### API Token
+The Cloudflare API token can be obtained from the Cloudflare dashboard under `My Profile` -> `API Tokens` -> `Create Token`.
+(https://dash.cloudflare.com/profile/api-tokens)
+![cf_token.png](images/cf_token.png)
+
+### Zone ID
+The zone ID can be found in the Cloudflare dashboard under the domain's `Overview` tab.
+![cf_zone_id.png](images/cf_zone_id.png)
+
 
 Feel free to contribute or suggest improvements!
