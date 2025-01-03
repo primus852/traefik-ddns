@@ -20,6 +20,7 @@ This repository contains configuration files and instructions for setting up a C
 5. [Dashboard Access](#dashboard-access)
 6. [Updating Configuration](#updating-configuration)
 7. [Troubleshooting](#troubleshooting)
+8. [Makefile Usage](#makefile-usage)
 8. [Maintenance and Updates](#maintenance-and-updates)
 9. [Security Considerations](#security-considerations)
 10. [Support](#support)
@@ -122,16 +123,29 @@ services:
 A template environment file for storing sensitive variables.
 
 ```env
+# Cloudflare
 CF_DNS_API_TOKEN=your-cloudflare-api-token
 CERT_MAIL=your-email@example.com
+
+# Let's Encrypt
 MAIN_DOMAIN=your-main-domain.com
 SANS_DOMAIN=*.your-main-domain.com
+
+# Dashboard
+DASHBOARD_DOMAIN=traefik.localhost
+DASHBOARD_ENABLED=true
+
+# WhoAmI Sample
+WHOAMI_DOMAIN=whoami.localhost
 ```
 
 - **`CF_DNS_API_TOKEN`**: Your Cloudflare API token with DNS permissions.
 - **`CERT_MAIL`**: Email address for Let's Encrypt notifications.
 - **`MAIN_DOMAIN`**: The primary domain for the SSL certificate.
 - **`SANS_DOMAIN`**: Additional domains (wildcards) for the SSL certificate.
+- **`DASHBOARD_ENABLED`**: Enable Traefik dashboard (default: `false`).
+- **`DASHBOARD_DOMAIN`**: URL of the traefik dashboard, if `DASHBOARD_ENABLED=true`
+- **`WHOAMI_DOMAIN`**: URL of the whoami service, for demo purposes
 
 ### `acme.json`
 
@@ -232,14 +246,15 @@ The `Makefile` provides convenient commands to manage the Docker Compose service
 ### Targets
 - `start-ddns`: Starts the Cloudflare DDNS service.
 - `start-traefik`: Starts the Traefik service.
-- `start`: Starts both the DDNS and Traefik services.
+- `start`: Starts both the DDNS and Traefik services, including whoami sample.
+- `start-dev`: Starts both the DDNS and Traefik services
 - `stop`: Stops all running services.
 - `down`: Stops and removes all services.
 
 ### Usage
 To use the `Makefile` targets, run the following commands in your terminal:  
   
-`make <target>`, e.g., `make start` to start both services.
+`make <target>`, e.g., `make start` to start both services and the sample application.
 
 ## Maintenance and Updates
 
