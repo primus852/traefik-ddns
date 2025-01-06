@@ -2,19 +2,19 @@ services:
   traefik:
     command:
       - --api.dashboard=true
-        - --log.level=INFO
-        - --accesslog=true
-        - --providers.docker.network=proxy
-        - --providers.docker.exposedByDefault=false
-        - --entrypoints.web.address=:80
-        - --entrypoints.web.http.redirections.entrypoint.to=websecure
-        - --entryPoints.web.http.redirections.entrypoint.scheme=https
-        - --entrypoints.websecure.address=:443
-        - --entrypoints.websecure.asDefault=true
-        - --entrypoints.websecure.http.tls.certresolver=myresolver
-        - --certificatesresolvers.myresolver.acme.email=${CERT_MAIL}
-        - --certificatesresolvers.myresolver.acme.tlschallenge=true
-        - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - --log.level=INFO
+      - --accesslog=true
+      - --providers.docker.network=proxy
+      - --providers.docker.exposedByDefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entryPoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.websecure.asDefault=true
+      - --entrypoints.websecure.http.tls.certresolver=myresolver
+      - --certificatesresolvers.myresolver.acme.email=${CERT_MAIL}
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     labels:
       - traefik.enable=${DASHBOARD_ENABLED}
       - traefik.http.routers.dashboard.rule=Host(`${DASHBOARD_DOMAIN}`)
