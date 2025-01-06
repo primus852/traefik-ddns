@@ -1,12 +1,16 @@
-# docker-compose.override.yml
 services:
   traefik:
     command:
-      - --api=true
-      - --api.insecure=false
-      - --providers.docker=true
+      - --api.dashboard=true
+      - --log.level=DEBUG
+      - --accesslog=true
+      - --providers.docker.network=web
+      - --providers.docker.exposedByDefault=false
       - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entryPoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.websecure.address=:443
+      - --entrypoints.websecure.asDefault=true
       - --certificatesresolvers.myresolver.acme.tlschallenge=true
       - --certificatesresolvers.myresolver.acme.email=${CERT_MAIL}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
