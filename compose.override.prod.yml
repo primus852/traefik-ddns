@@ -2,23 +2,11 @@
 services:
   traefik:
     command:
-      - --api.dashboard=true
-      - --log.level=WARN
-      - --accesslog=true
-      - --providers.docker.network=web
-      - --providers.docker.exposedByDefault=false
+      - --api=true"
+      - --api.insecure=false
+      - --providers.docker=true
       - --entrypoints.web.address=:80
-      - --entrypoints.web.http.redirections.entrypoint.to=websecure
-      - --entryPoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.websecure.address=:443
-      - --entrypoints.websecure.asDefault=true
-      - --certificatesresolvers.letsencrypt.acme.dnschallenge=true
-      - --certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare
-      - --certificatesResolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53
-      - --certificatesResolvers.letsencrypt.acme.dnschallenge.delayBeforeCheck=20
-      - --certificatesresolvers.letsencrypt.acme.email=${CERT_MAIL}
-      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
-      - --entrypoints.websecure.http.tls=true
-      - --entrypoints.websecure.http.tls.certResolver=letsencrypt
-      - --entrypoints.websecure.http.tls.domains[0].main=${MAIN_DOMAIN}
-      - --entrypoints.websecure.http.tls.domains[0].sans=${SANS_DOMAIN}
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.email=${CERT_MAIL}
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
