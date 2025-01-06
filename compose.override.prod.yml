@@ -62,7 +62,7 @@ services:
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     labels:
       - traefik.enable=${DASHBOARD_ENABLED}
-      - traefik.http.routers.dashboard.rule=Host(`dashboard.prod.hyvee.de`)
+      - traefik.http.routers.dashboard.rule=Host(`${DASHBOARD_DOMAIN}`)
       - traefik.http.routers.dashboard.tls=true
       - traefik.http.routers.dashboard.tls.certresolver=myresolver
       - traefik.http.routers.dashboard.service=api@internal
