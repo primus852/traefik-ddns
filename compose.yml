@@ -75,7 +75,7 @@ services:
       - traefik.http.routers.dashboard.rule=Host(`${DASHBOARD_DOMAIN}`)
       - traefik.http.routers.dashboard.service=api@internal
       - traefik.http.routers.dashboard.middlewares=myauth
-      - traefik.http.middlewares.myauth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/ # ATTENTION - test:test
+      - traefik.http.middlewares.myauth.basicauth.users=${BASIC_AUTH_USER}:${BASIC_AUTH_PASS}
     environment:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
       - CF_API_EMAIL=${CF_API_EMAIL}
