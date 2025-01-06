@@ -2,23 +2,24 @@ services:
   traefik:
     command:
       - --api.dashboard=true
-      - --log.level=DEBUG
-      - --accesslog=true
-      - --providers.docker.network=web
-      - --providers.docker.exposedByDefault=false
-      - --entrypoints.web.address=:80
-      - --entrypoints.web.http.redirections.entrypoint.to=websecure
-      - --entryPoints.web.http.redirections.entrypoint.scheme=https
-      - --entrypoints.websecure.address=:443
-      - --entrypoints.websecure.asDefault=true
-      - --certificatesresolvers.myresolver.acme.tlschallenge=true
-      - --certificatesresolvers.myresolver.acme.email=${CERT_MAIL}
-      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+        - --log.level=INFO
+        - --accesslog=true
+        - --providers.docker.network=proxy
+        - --providers.docker.exposedByDefault=false
+        - --entrypoints.web.address=:80
+        - --entrypoints.web.http.redirections.entrypoint.to=websecure
+        - --entryPoints.web.http.redirections.entrypoint.scheme=https
+        - --entrypoints.websecure.address=:443
+        - --entrypoints.websecure.asDefault=true
+        - --entrypoints.websecure.http.tls.certresolver=myresolver
+        - --certificatesresolvers.myresolver.acme.email=${CERT_MAIL}
+        - --certificatesresolvers.myresolver.acme.tlschallenge=true
+        - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     labels:
       - traefik.enable=${DASHBOARD_ENABLED}
-      - traefik.http.routers.dashboard.rule=Host(`traefik.prod.hyvee.de`)
-      - traefik.http.routers.traefik.tls=true
-      - traefik.http.routers.traefik.tls.certresolver=myresolver
+      - traefik.http.routers.dashboard.rule=Host(`${DASHBOARD_DOMAIN}`)
+      - traefik.http.routers.dashboard.tls=true
+      - traefik.http.routers.dashboard.tls.certresolver=myresolver
       - traefik.http.routers.dashboard.service=api@internal
       - traefik.http.routers.dashboard.middlewares=myauth
       - traefik.http.middlewares.myauth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/ # ATTENTION - test:test
