@@ -18,7 +18,7 @@ services:
       - traefik.enable=${DASHBOARD_ENABLED}
       - traefik.http.routers.dashboard.rule=Host(`${DASHBOARD_DOMAIN}`)
       - traefik.http.routers.traefik.tls=true
-      - traefik.http.routers.traefik.tls.certresolver=letsencrypt
+      - traefik.http.routers.traefik.tls.certresolver=myresolver
       - traefik.http.routers.dashboard.service=api@internal
       - traefik.http.routers.mydashboard.middlewares=myauth
       - traefik.http.middlewares.myauth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/ # ATTENTION - test:test
