@@ -20,5 +20,5 @@ services:
       - traefik.http.routers.traefik.tls=true
       - traefik.http.routers.traefik.tls.certresolver=myresolver
       - traefik.http.routers.dashboard.service=api@internal
-      - traefik.http.routers.mydashboard.middlewares=myauth
+      - traefik.http.routers.dashboard.middlewares=myauth
       - traefik.http.middlewares.myauth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/ # ATTENTION - test:test
