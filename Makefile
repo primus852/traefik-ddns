@@ -15,6 +15,17 @@ start-ddns:
 	  $(DOCKER_COMPOSE) up ddns -d --force-recreate
 .PHONY: start-ddns
 
+start-ofelia:
+	  $(DOCKER_COMPOSE) up ofelia -d --force-recreate
+.PHONY: start-ofelia
+
+start-all:
+	make start-ddns && \
+	make start-ofelia && \
+	make start-traefik && \
+	make start-whoami
+.PHONY: start-all
+
 start-whoami:
 	$(DOCKER_COMPOSE) up whoami -d --force-recreate
 	@WHOAMI_DOMAIN=$$(grep -E '^WHOAMI_DOMAIN=' .env | cut -d '=' -f 2); \
