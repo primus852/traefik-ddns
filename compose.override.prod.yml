@@ -2,7 +2,7 @@
 services:
   traefik:
     command:
-      - --api=true"
+      - --api=true
       - --api.insecure=false
       - --providers.docker=true
       - --entrypoints.web.address=:80
