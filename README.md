@@ -256,6 +256,9 @@ To use the `Makefile` targets, run the following commands in your terminal:
   
 `make <target>`, e.g., `make start` to start both services and the sample application.
 
+### Production Usage
+To start the services in production mode, use `ENV=prod make <target>`
+
 ## Maintenance and Updates
 
 ### Updating Docker Images
