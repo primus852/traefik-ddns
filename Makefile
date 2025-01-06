@@ -9,7 +9,7 @@ start-ddns:
 start-whoami:
 	docker compose -f compose.yml up whoami -d --force-recreate
 	WHOAMI_DOMAIN=$$(grep -E '^WHOAMI_DOMAIN=' .env | cut -d '=' -f 2); \
-  		echo "Starting whoami service under https://$$WHOAMI_DOMAIN/"; \
+  		echo "Starting whoami service under https://$$WHOAMI_DOMAIN/";
 .PHONY: start-whoami
 
 start-traefik:
