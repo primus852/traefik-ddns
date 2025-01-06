@@ -11,6 +11,18 @@ services:
     volumes:
       - ./config.ddns.json:/config.json:ro
     restart: unless-stopped
+  ofelia:
+    image: mcuadros/ofelia:latest
+    container_name: ofelia
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      ofelia.job-local.ofelia-alive.schedule: "@every 5m"
+      ofelia.job-local.ofelia-alive.command: "date"
+      traefik.enable: false
+    networks:
+      - web
   traefik:
     image: traefik:latest
     container_name: traefik
@@ -70,6 +82,7 @@ services:
 
   whoami:
     image: traefik/whoami:latest
+    container_name: whoami
     networks:
       - web
     labels:
