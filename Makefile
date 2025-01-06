@@ -42,16 +42,6 @@ start-traefik:
 	fi
 .PHONY: start-traefik
 
-start-all:
-	$(DOCKER_COMPOSE) traefik ofelia whoami up -d --force-recreate
-	@if [ "$$(grep -E '^DASHBOARD_ENABLED=' .env | cut -d '=' -f 2)" = "true" ]; then \
-		DASHBOARD_DOMAIN=$$(grep -E '^DASHBOARD_DOMAIN=' .env | cut -d '=' -f 2); \
-		echo "Starting Dashboard under https://$$DASHBOARD_DOMAIN/"; \
-	else \
-		echo "Started, Dashboard is not enabled."; \
-	fi
-.PHONY: start-all
-
 start-dev:
 	$(DOCKER_COMPOSE) up ddns traefik -d --force-recreate
 	@if [ "$$(grep -E '^DASHBOARD_ENABLED=' .env | cut -d '=' -f 2)" = "true" ]; then \
