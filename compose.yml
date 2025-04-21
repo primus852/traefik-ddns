@@ -29,13 +29,11 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.prometheus.rule=Host(`${PROMETHEUS_DOMAIN}`)
-      - traefik.http.services.prometheus.loadbalancer.server.port=80
+      - traefik.http.services.prometheus.loadbalancer.server.port=9090
     volumes:
       - "./prometheus.yml:/etc/prometheus/prometheus.yml"
     networks:
       - proxy
-    ports:
-      - "9090:9090"
   grafana:
     image: grafana/grafana-enterprise
     container_name: grafana
@@ -43,9 +41,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.grafana.rule=Host(`${GRAFANA_DOMAIN}`)
-      - traefik.http.services.grafana.loadbalancer.server.port=80
-    ports:
-      - '3000:3000'
+      - traefik.http.services.grafana.loadbalancer.server.port=3000
   traefik:
     image: traefik:latest
     container_name: traefik
