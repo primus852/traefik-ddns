@@ -19,10 +19,24 @@ start-ofelia:
 	  $(DOCKER_COMPOSE) up ofelia -d --force-recreate
 .PHONY: start-ofelia
 
+start-prometheus:
+	  $(DOCKER_COMPOSE) up prometheus -d --force-recreate
+	@PROMETHEUS_DOMAIN=$$(grep -E '^PROMETHEUS_DOMAIN=' .env | cut -d '=' -f 2); \
+  		echo "Starting Prometheus under https://$$PROMETHEUS_DOMAIN/";
+.PHONY: start-prometheus
+
+start-grafana:
+	  $(DOCKER_COMPOSE) up grafana -d --force-recreate
+	@GRAFANA_DOMAIN=$$(grep -E '^GRAFANA_DOMAIN=' .env | cut -d '=' -f 2); \
+  		echo "Starting Grafana under https://$$GRAFANA_DOMAIN/";
+.PHONY: start-grafana
+
 start-all:
 	make start-ddns && \
 	make start-ofelia && \
 	make start-traefik && \
+	make start-prometheus && \
+	make start-grafana && \
 	make start-whoami
 .PHONY: start-all
 

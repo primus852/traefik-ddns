@@ -1,3 +1,4 @@
 /config.ddns.json
 /.env
 /.idea/
+/prometheus.yml
