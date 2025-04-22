@@ -42,6 +42,8 @@ services:
       - traefik.enable=true
       - traefik.http.routers.grafana.rule=Host(`${GRAFANA_DOMAIN}`)
       - traefik.http.services.grafana.loadbalancer.server.port=3000
+    volumes:
+      - 'grafana_storage:/var/lib/grafana'
     networks:
       - proxy
   traefik:
@@ -113,3 +115,6 @@ services:
 networks:
   proxy:
     name: proxy
+
+volumes:
+  grafana_storage: {}
