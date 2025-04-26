@@ -31,7 +31,8 @@ services:
       - traefik.http.routers.prometheus.rule=Host(`${PROMETHEUS_DOMAIN}`)
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
     command:
-      - '-web.config.file=/etc/prometheus/web-config.yml'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.config.file=/etc/prometheus/web-config.yml'
     volumes:
       - "./prometheus.yml:/etc/prometheus/prometheus.yml"
       - "./web-config.yml:/etc/prometheus/web-config.yml"
