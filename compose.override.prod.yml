@@ -2,7 +2,7 @@ services:
   traefik:
     command:
       - --api.dashboard=true
-      - --log.level=DEBUG
+      - --log.level=INFO
       - --accesslog=true
       - --providers.docker.network=proxy
       - --providers.docker.exposedByDefault=false
