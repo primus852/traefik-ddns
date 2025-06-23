@@ -37,6 +37,7 @@ start-all:
 	make start-traefik && \
 	make start-prometheus && \
 	make start-grafana && \
+	make start-planka && \
 	make start-whoami
 .PHONY: start-all
 
@@ -45,6 +46,12 @@ start-whoami:
 	@WHOAMI_DOMAIN=$$(grep -E '^WHOAMI_DOMAIN=' .env | cut -d '=' -f 2); \
   		echo "Starting whoami service under https://$$WHOAMI_DOMAIN/";
 .PHONY: start-whoami
+
+start-planka:
+	$(DOCKER_COMPOSE) up planka postgres -d --force-recreate
+	@PLANKA_DOMAIN=$$(grep -E '^PLANKA_DOMAIN=' .env | cut -d '=' -f 2); \
+  		echo "Starting planka service under https://$$PLANKA_DOMAIN/";
+.PHONY: start-planka
 
 start-traefik:
 	$(DOCKER_COMPOSE) up traefik -d --force-recreate
