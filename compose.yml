@@ -116,9 +116,58 @@ services:
       - traefik.enable=true
       - traefik.http.routers.mywhoami.rule=Host(`${WHOAMI_DOMAIN}`)
       - traefik.http.services.mywhoami.loadbalancer.server.port=80
+
+  planka:
+    image: ghcr.io/plankanban/${PLANKA_IMAGE}
+    restart: on-failure
+    container_name: planka
+    networks:
+      - proxy
+    volumes:
+      - favicons:/app/public/favicons
+      - user-avatars:/app/public/user-avatars
+      - background-images:/app/public/background-images
+      - attachments:/app/private/attachments
+    environment:
+      - BASE_URL=https://${PLANKA_DOMAIN}
+      - DATABASE_URL=postgresql://${PLANKA_DB_USER}:${PLANKA_DB_PASSWORD}@postgres/${PLANKA_DB_NAME}
+      - SECRET_KEY=${PLANKA_SECRET_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.planka.rule=Host(`${PLANKA_DOMAIN}`)
+      - traefik.http.services.planka.loadbalancer.server.port=1337
+
+  postgres:
+    image: postgres:16-alpine
+    restart: on-failure
+    container_name: planka-postgres
+    networks:
+      - proxy
+    volumes:
+      - db-data-planka:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${PLANKA_DB_NAME}
+      - POSTGRES_USER=${PLANKA_DB_USER}
+      - POSTGRES_PASSWORD=${PLANKA_DB_PASSWORD}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PLANKA_DB_USER} -d ${PLANKA_DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 networks:
   proxy:
     name: proxy
+    external: true
 
 volumes:
   grafana_storage: {}
+  favicons:
+  user-avatars:
+  background-images:
+  attachments:
+  db-data-planka:
