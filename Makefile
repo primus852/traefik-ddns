@@ -11,6 +11,10 @@ ifeq ($(ENV),prod)
 	DOCKER_COMPOSE := $(DOCKER_COMPOSE_PROD)
 endif
 
+build:
+	  $(DOCKER_COMPOSE) build --no-cache
+.PHONY: build
+
 start-ddns:
 	  $(DOCKER_COMPOSE) up ddns -d --force-recreate
 .PHONY: start-ddns
@@ -40,6 +44,11 @@ start-all:
 	make start-planka && \
 	make start-whoami
 .PHONY: start-all
+
+start-min:
+	make start-ddns && \
+	make start-traefik
+.PHONY: start-min
 
 start-whoami:
 	$(DOCKER_COMPOSE) up whoami -d --force-recreate

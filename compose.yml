@@ -68,6 +68,7 @@ services:
         mode: host
     networks:
       - proxy
+      - hyvee
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -162,6 +163,9 @@ services:
 networks:
   proxy:
     name: proxy
+    external: true
+  hyvee:
+    name: hyvee
     external: true
 
 volumes:
